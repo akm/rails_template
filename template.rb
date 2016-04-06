@@ -147,6 +147,9 @@ insert_into_file 'app/models/user.rb', <<EOS, before: 'end'
 
 EOS
 
+# https://github.com/plataformatec/devise/wiki/I18n#japanese-devisejayml
+download_file "https://gist.githubusercontent.com/satour/6c15f27211fdc0de58b4/raw/d4b5815295c65021790569c9be447d15760f4957/devise.ja.yml", "config/locales/ja.devise.yml"
+
 ## rails_admin
 generate_with_git 'rails_admin:install'
 download_file "https://raw.githubusercontent.com/starchow/rails_admin-i18n/master/locales/ja.yml", "config/locales/ja.rails_admin.yml"
