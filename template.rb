@@ -15,6 +15,11 @@ def generate_with_git(arg)
   git_add_commit "rails generate #{arg}"
 end
 
+def download_file(url, dest)
+  run "wget #{url} --output-document=#{dest}"
+  git_add_commit "Download #{dest} from #{url}"
+end
+
 git :init
 git_add_commit "#{File.basename($PROGRAM_NAME)} #{ARGV.join(' ')}"
 
@@ -22,7 +27,7 @@ run 'mv README.rdoc README.md'
 
 git_add_commit "Rename README.rdoc to README.md"
 
-append_file 'Gemfile', <<-EOS
+## Gemfile
 
 gem "twitter-bootstrap-rails"
 
@@ -31,7 +36,7 @@ gem "kaminari"
 
 gem 'rails_admin'
 
-group :development, :test do
+gem_group :development, :test do
   gem "rspec"
   gem "rspec-rails"
   gem 'simplecov'     , require: false
@@ -46,14 +51,12 @@ group :development, :test do
   gem "rails_best_practices"
 end
 
-group :development do
+gem_group :development do
   gem "better_errors"
   gem 'binding_of_caller'
 
   gem "schema_comments"
 end
-
-EOS
 
 git_add_commit 'Add gems to Gemfile'
 
@@ -69,8 +72,6 @@ application  do
     config.time_zone = 'Tokyo'
     config.active_record.default_timezone = :local
 
-    I18n.enforce_available_locales = true
-    config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}').to_s]
     config.i18n.default_locale = :ja
 
     config.generators do |g|
@@ -84,11 +85,8 @@ end
 
 git_add_commit 'Add settings of timezone, locale and generators'
 
-# set Japanese locale
-locale_file_url = "https://raw.github.com/svenfuchs/rails-i18n/master/rails/locale/ja.yml"
-run 'wget #{locale_file_url} -P config/locales/'
-
-git_add_commit "Download ja.yml from #{locale_file_url}"
+# Rails Japanese locale
+download_file "https://raw.githubusercontent.com/svenfuchs/rails-i18n/master/rails/locale/ja.yml", "config/locales/ja.yml"
 
 ## rspec
 generate_with_git 'rspec:install'
@@ -117,7 +115,7 @@ EOS
 
 insert_into_file 'config/routes.rb', <<EOS, after: 'Rails.application.routes.draw do'
 
-  root to: "top#index" # TODO create controller for root
+  root to: "rails_admin/main#top" # TODO Change top page
 
 EOS
 
@@ -125,5 +123,35 @@ git_add_commit 'Following instructions of devise:install'
 
 generate_with_git 'devise User'
 
+
+insert_into_file 'app/models/user.rb', <<EOS, before: 'end'
+
+  class << self
+    def current_user=(user)
+      Thread.current[:current_user] = user
+    end
+
+    def current_user
+      Thread.current[:current_user]
+    end
+
+    def current(user)
+      orig_user, User.current_user = User.current_user, user
+      begin
+        return yield
+      ensure
+        User.current_user = orig_user
+      end
+    end
+  end
+
+EOS
+
 ## rails_admin
 generate_with_git 'rails_admin:install'
+download_file "https://raw.githubusercontent.com/starchow/rails_admin-i18n/master/locales/ja.yml", "config/locales/ja.rails_admin.yml"
+
+## DB
+
+run "bin/rake db:create"
+run "bin/rake db:migrate"
