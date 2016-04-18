@@ -15,15 +15,17 @@ def generate_with_git(arg)
   git_add_commit "rails generate #{arg}"
 end
 
-def download_file(url, dest)
-  cmd = "curl #{url} -o #{dest}"
+def git_run(cmd)
   run cmd
   git_add_commit cmd
 end
 
+def download_file(url, dest)
+  git_run "curl #{url} -o #{dest}"
+end
+
 def git_rake(*args)
-  rake(*args)
-  git_add_commit("rake %s" % args.join(" "))
+  git_run "bin/rake %s" % args.join(" ")
 end
 
 git :init
@@ -163,5 +165,4 @@ download_file "https://raw.githubusercontent.com/starchow/rails_admin-i18n/maste
 
 ## DB
 
-git_rake "db:create"
-git_rake "db:migrate"
+git_rake "db:create db:migrate"
