@@ -16,8 +16,9 @@ def generate_with_git(arg)
 end
 
 def download_file(url, dest)
-  run "wget #{url} --output-document=#{dest}"
-  git_add_commit "Download #{dest} from #{url}"
+  cmd = "curl #{url} -o #{dest}"
+  run cmd
+  git_add_commit cmd
 end
 
 git :init
@@ -100,6 +101,7 @@ generate_with_git 'kaminari:views bootstrap3'
 
 ## Devise
 generate_with_git 'devise:install'
+download_file "https://gist.githubusercontent.com/kawamoto/4729292/raw/80fd53034289be926de2e2206c2ab7afbac35993/devise.ja.yml", "config/locales/ja.devise.yml"
 
 insert_into_file 'app/views/layouts/application.html.erb', <<EOS , after: '<body>'
   <p class="notice"><%= notice %></p>
