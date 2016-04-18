@@ -21,6 +21,11 @@ def download_file(url, dest)
   git_add_commit cmd
 end
 
+def git_rake(*args)
+  rake(*args)
+  git_add_commit("rake %s" % args.join(" "))
+end
+
 git :init
 git_add_commit "#{File.basename($PROGRAM_NAME)} #{ARGV.join(' ')}"
 
@@ -158,5 +163,5 @@ download_file "https://raw.githubusercontent.com/starchow/rails_admin-i18n/maste
 
 ## DB
 
-run "bin/rake db:create"
-run "bin/rake db:migrate"
+git_rake "db:create"
+git_rake "db:migrate"
