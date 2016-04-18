@@ -124,7 +124,8 @@ EOS
 
 insert_into_file 'config/routes.rb', <<EOS, after: 'Rails.application.routes.draw do'
 
-  root to: "rails_admin/main#top" # TODO Change top page
+  root to: "devise/sessions#new" # Sign in
+  # root to: "rails_admin/main#dashboard" # TODO Change top page
 
 EOS
 
