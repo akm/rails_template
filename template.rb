@@ -110,11 +110,12 @@ generate_with_git 'kaminari:views bootstrap3'
 generate_with_git 'devise:install'
 download_file "https://gist.githubusercontent.com/kawamoto/4729292/raw/80fd53034289be926de2e2206c2ab7afbac35993/devise.ja.yml", "config/locales/ja.devise.yml"
 
-insert_into_file 'app/views/layouts/application.html.erb', <<EOS , after: '<body>'
-  <p class="notice"><%= notice %></p>
-  <p class="alert"><%= alert %></p>
-
-EOS
+# Flash messages are included in bootstrap views
+# insert_into_file 'app/views/layouts/application.html.erb', <<EOS , after: '<body>'
+#   <p class="notice"><%= notice %></p>
+#   <p class="alert"><%= alert %></p>
+#
+# EOS
 
 insert_into_file 'config/environments/development.rb', <<EOS, after: 'config.action_mailer.raise_delivery_errors = false'
 
