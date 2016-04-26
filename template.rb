@@ -2,6 +2,9 @@
 # http://guides.rubyonrails.org/rails_application_templates.html
 # https://github.com/morizyun/rails4_template/blob/master/app_template.rb
 # https://github.com/search?q=rails%20template&source=c
+#
+# The method "insert_to_file" is defined by thor instead of rails
+# https://github.com/erikhuda/thor/blob/master/lib/thor/actions/inject_into_file.rb
 
 require 'bundler'
 
@@ -98,6 +101,22 @@ download_file "https://raw.githubusercontent.com/svenfuchs/rails-i18n/master/rai
 
 ## rspec
 generate_with_git 'rspec:install'
+insert_into_file 'spec/rails_helper.rb', <<EOS, after: "# Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }"
+Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
+
+EOS
+git_add_commit 'Load files under spec/support'
+
+
+## simplecov
+insert_into_file 'spec/rails_helper.rb', <<EOS, before: "# This file is copied to spec/ when you run 'rails generate rspec:install'"
+# https://github.com/colszowka/simplecov
+require 'simplecov'
+SimpleCov.start 'rails'
+
+EOS
+git_add_commit 'Enable simplecov'
+
 
 ## twitter-bootstrap-rails
 generate_with_git 'bootstrap:install static'
@@ -129,11 +148,9 @@ insert_into_file 'config/routes.rb', <<EOS, after: 'Rails.application.routes.dra
   root to: "rails_admin/main#dashboard" # TODO Change top page
 
 EOS
-
 git_add_commit 'Following instructions of devise:install'
 
 generate_with_git 'devise User'
-
 
 insert_into_file 'app/models/user.rb', <<EOS, before: 'end'
 
@@ -157,9 +174,27 @@ insert_into_file 'app/models/user.rb', <<EOS, before: 'end'
   end
 
 EOS
+git_add_commit 'Add User.current_user'
+
 
 # https://github.com/plataformatec/devise/wiki/I18n#japanese-devisejayml
 download_file "https://gist.githubusercontent.com/satour/6c15f27211fdc0de58b4/raw/d4b5815295c65021790569c9be447d15760f4957/devise.ja.yml", "config/locales/ja.devise.yml"
+
+
+insert_into_file 'spec/rails_helper.rb', <<EOS, after: '# Add additional requires below this line. Rails is not loaded until this point!'
+
+# For spec/controllers
+# https://github.com/plataformatec/devise/wiki/How-To:-Test-controllers-with-Rails-3-and-4-(and-RSpec)
+require 'devise'
+
+# For spec/requests
+# https://github.com/plataformatec/devise/wiki/How-To:-Test-with-Capybara
+
+EOS
+git_add_commit 'Load devise on rails_helper'
+
+
+
 
 ## rails_admin
 generate_with_git 'rails_admin:install'
