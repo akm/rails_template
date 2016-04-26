@@ -23,7 +23,7 @@ def git_run(cmd)
   git_add_commit cmd
 end
 
-def download_file(url, dest)
+def download_file(dest, url)
   git_run "curl #{url} -o #{dest}"
 end
 
@@ -97,7 +97,7 @@ end
 git_add_commit 'Add settings of timezone, locale and generators'
 
 # Rails Japanese locale
-download_file "https://raw.githubusercontent.com/svenfuchs/rails-i18n/master/rails/locale/ja.yml", "config/locales/ja.yml"
+download_file "config/locales/ja.yml", "https://raw.githubusercontent.com/svenfuchs/rails-i18n/master/rails/locale/ja.yml"
 
 ## rspec
 generate_with_git 'rspec:install'
@@ -127,7 +127,7 @@ generate_with_git 'kaminari:views bootstrap3'
 
 ## Devise
 generate_with_git 'devise:install'
-download_file "https://gist.githubusercontent.com/kawamoto/4729292/raw/80fd53034289be926de2e2206c2ab7afbac35993/devise.ja.yml", "config/locales/ja.devise.yml"
+download_file "config/locales/ja.devise.yml", "https://gist.githubusercontent.com/kawamoto/4729292/raw/80fd53034289be926de2e2206c2ab7afbac35993/devise.ja.yml"
 
 # Flash messages are included in bootstrap views
 # insert_into_file 'app/views/layouts/application.html.erb', <<EOS , after: '<body>'
@@ -178,7 +178,7 @@ git_add_commit 'Add User.current_user'
 
 
 # https://github.com/plataformatec/devise/wiki/I18n#japanese-devisejayml
-download_file "https://gist.githubusercontent.com/satour/6c15f27211fdc0de58b4/raw/d4b5815295c65021790569c9be447d15760f4957/devise.ja.yml", "config/locales/ja.devise.yml"
+download_file "config/locales/ja.devise.yml", "https://gist.githubusercontent.com/satour/6c15f27211fdc0de58b4/raw/d4b5815295c65021790569c9be447d15760f4957/devise.ja.yml"
 
 
 insert_into_file 'spec/rails_helper.rb', <<EOS, after: '# Add additional requires below this line. Rails is not loaded until this point!'
@@ -198,7 +198,7 @@ git_add_commit 'Load devise on rails_helper'
 
 ## rails_admin
 generate_with_git 'rails_admin:install'
-download_file "https://raw.githubusercontent.com/starchow/rails_admin-i18n/master/locales/ja.yml", "config/locales/ja.rails_admin.yml"
+download_file "config/locales/ja.rails_admin.yml", "https://raw.githubusercontent.com/starchow/rails_admin-i18n/master/locales/ja.yml"
 
 ## DB
 
