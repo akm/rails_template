@@ -179,7 +179,7 @@ git_add_commit 'Add User.current_user'
 
 # https://github.com/plataformatec/devise/wiki/I18n#japanese-devisejayml
 download_file "config/locales/ja.devise.yml", "https://gist.githubusercontent.com/satour/6c15f27211fdc0de58b4/raw/d4b5815295c65021790569c9be447d15760f4957/devise.ja.yml"
-
+download_file "app/controllers/concerns/authentication.rb", "https://raw.githubusercontent.com/akm/rails_template/master/app/controllers/concerns/authentication.rb"
 
 insert_into_file 'spec/rails_helper.rb', <<EOS, after: '# Add additional requires below this line. Rails is not loaded until this point!'
 
@@ -193,7 +193,8 @@ require 'devise'
 EOS
 git_add_commit 'Load devise on rails_helper'
 
-
+download_file "spec/support/controller_macros.rb", "https://raw.githubusercontent.com/akm/rails_template/master/spec/support/controller_macros.rb"
+download_file "spec/support/devise.rb"           , "https://raw.githubusercontent.com/akm/rails_template/master/spec/support/devise.rb"
 
 
 ## rails_admin
