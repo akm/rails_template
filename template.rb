@@ -20,15 +20,13 @@ def generate_with_git(arg)
 end
 
 def git_run(cmd)
-  # run cmd
-  say_status :run, cmd, config.fetch(:verbose, true)
-  system cmd
+  run cmd
   raise "Failed to run: #{cmd}" unless $? == 0
   git_add_commit cmd
 end
 
 def download_file(dest, url)
-  FileUtils.mkdir_p File.dirname(dest)
+  # FileUtils.mkdir_p File.dirname(dest)
   git_run "curl #{url} -o #{dest}"
 end
 
