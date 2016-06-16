@@ -19,7 +19,8 @@ def generate_with_git(arg)
 end
 
 def git_run(cmd)
-  run cmd
+  # run cmd
+  system cmd
   raise "Failed to run: #{cmd}" unless $? == 0
   git_add_commit cmd
 end
