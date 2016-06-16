@@ -120,7 +120,7 @@ download_file "config/locales/ja.yml", "https://raw.githubusercontent.com/svenfu
 
 ## rspec
 generate_with_git 'rspec:install'
-insert_into_file 'spec/rails_helper.rb', <<EOS, after: "# Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }"
+insert_into_file 'spec/rails_helper.rb', <<EOS, after: '# Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }'
 Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 
 EOS
@@ -217,8 +217,14 @@ git_add_commit 'Load devise on rails_helper'
 download_file "spec/support/controller_macros.rb", "https://raw.githubusercontent.com/akm/rails_template/master/spec/support/controller_macros.rb"
 download_file "spec/support/devise.rb"           , "https://raw.githubusercontent.com/akm/rails_template/master/spec/support/devise.rb"
 
+download_file "spec/factories/users.rb", "https://raw.githubusercontent.com/akm/rails_template/master/spec/factories/users.rb"
+
 ## cancancan
 generate_with_git 'cancan:ability'
+insert_into_file 'app/models/ability.rb', <<EOS, after: '    # https://github.com/CanCanCommunity/cancancan/wiki/Defining-Abilities'
+
+    can :manage, :all
+EOS
 
 ## bullet
 insert_into_file 'config/environments/development.rb', <<EOS, after: "  # config.action_view.raise_on_missing_translations = true"
