@@ -123,6 +123,8 @@ Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 EOS
 git_add_commit 'Load files under spec/support'
 
+download_file ".rspec", "httpshttps://raw.githubusercontent.com/akm/rails_template/master/.rspec"
+
 
 ## simplecov
 insert_into_file 'spec/rails_helper.rb', <<EOS, before: "# This file is copied to spec/ when you run 'rails generate rspec:install'"
