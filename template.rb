@@ -43,9 +43,22 @@ git_add_commit "Rename README.rdoc to README.md"
 gem "twitter-bootstrap-rails"
 
 gem 'devise'
+# https://github.com/CanCanCommunity/cancancan
+gem 'cancancan'
+
 gem "kaminari"
 
+# https://github.com/brainspec/enumerize
+gem 'enumerize'
+
+# https://github.com/sinsoku/pretty_validation
+# http://sinsoku.hatenablog.com/entry/2015/11/15/103924
+gem 'pretty_validation', git: "https://github.com/akm/pretty_validation.git"
+
 gem 'rails_admin'
+
+# Use dotenv to load environment variables
+gem 'dotenv-rails', :require => 'dotenv/rails-now'
 
 gem_group :development, :test do
   gem "rspec"
@@ -67,6 +80,9 @@ gem_group :development do
   gem 'binding_of_caller'
 
   gem "schema_comments"
+
+  # https://github.com/flyerhzm/bullet
+  gem 'bullet'  
 end
 
 git_add_commit 'Add gems to Gemfile'
@@ -106,6 +122,8 @@ Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 
 EOS
 git_add_commit 'Load files under spec/support'
+
+download_file ".rspec", "httpshttps://raw.githubusercontent.com/akm/rails_template/master/.rspec"
 
 
 ## simplecov
@@ -195,6 +213,36 @@ git_add_commit 'Load devise on rails_helper'
 
 download_file "spec/support/controller_macros.rb", "https://raw.githubusercontent.com/akm/rails_template/master/spec/support/controller_macros.rb"
 download_file "spec/support/devise.rb"           , "https://raw.githubusercontent.com/akm/rails_template/master/spec/support/devise.rb"
+
+## cancancan
+generate_with_git 'cancan:ability'
+
+## bullet
+insert_into_file 'config/environments/development.rb', <<EOS, after: "  # config.action_view.raise_on_missing_translations = true"
+
+  config.after_initialize do
+    Bullet.enable = true
+    Bullet.alert = true
+    Bullet.bullet_logger = true
+    Bullet.console = true
+    # Bullet.growl = true
+    # Bullet.xmpp = { :account  => 'bullets_account@jabber.org',
+    #                 :password => 'bullets_password_for_jabber',
+    #                 :receiver => 'your_account@jabber.org',
+    #                 :show_online_status => true }
+    Bullet.rails_logger = true
+    # Bullet.honeybadger = true
+    # Bullet.bugsnag = true
+    # Bullet.airbrake = true
+    # Bullet.rollbar = true
+    # Bullet.add_footer = true
+    # Bullet.stacktrace_includes = [ 'your_gem', 'your_middleware' ]
+    # Bullet.stacktrace_excludes = [ 'their_gem', 'their_middleware' ]
+    # Bullet.slack = { webhook_url: 'http://some.slack.url', foo: 'bar' }
+  end
+
+EOS
+git_add_commit 'Add config for bullet'
 
 
 ## rails_admin
