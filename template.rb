@@ -96,8 +96,6 @@ end
 
 git_add_commit 'bundle install'
 
-say_status :PWD, Dir.pwd, config.fetch(:verbose, true)
-
 # set config/application.rb
 application  do
   %q{
