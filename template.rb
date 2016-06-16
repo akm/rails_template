@@ -7,6 +7,7 @@
 # https://github.com/erikhuda/thor/blob/master/lib/thor/actions/inject_into_file.rb
 
 require 'bundler'
+require 'fileutils'
 
 def git_add_commit(msg, path = '.')
   git add: path
@@ -20,6 +21,7 @@ end
 
 def git_run(cmd)
   # run cmd
+  say_status :run, cmd, config.fetch(:verbose, true)
   system cmd
   raise "Failed to run: #{cmd}" unless $? == 0
   git_add_commit cmd
@@ -95,6 +97,8 @@ Bundler.with_clean_env do
 end
 
 git_add_commit 'bundle install'
+
+say_status :PWD, Dir.pwd, config.fetch(:verbose, true)
 
 # set config/application.rb
 application  do
