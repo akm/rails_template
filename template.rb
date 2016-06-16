@@ -26,6 +26,7 @@ def git_run(cmd)
 end
 
 def download_file(dest, url)
+  FileUtils.mkdir_p File.dirname(dest)
   git_run "curl #{url} -o #{dest}"
 end
 
