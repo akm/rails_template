@@ -120,7 +120,7 @@ download_file "config/locales/ja.yml", "https://raw.githubusercontent.com/svenfu
 
 ## rspec
 generate_with_git 'rspec:install'
-insert_into_file 'spec/rails_helper.rb', <<EOS, after: '# Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }'
+insert_into_file 'spec/rails_helper.rb', <<EOS, after: "# Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }"
 Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 
 EOS
