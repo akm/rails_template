@@ -265,3 +265,7 @@ end
 ## DB
 
 git_rake "db:create db:migrate"
+
+## The End
+
+git commit "--allow-empty '[COMPLETE] rails new with akm/rails_template'"
