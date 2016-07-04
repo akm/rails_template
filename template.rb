@@ -58,7 +58,7 @@ gem 'enumerize'
 # http://sinsoku.hatenablog.com/entry/2015/11/15/103924
 gem 'pretty_validation', git: "https://github.com/akm/pretty_validation.git"
 
-gem 'rails_admin'
+gem 'rails_admin' unless ENV['DISABLE_RAILS_ADMIN'] =~ /true|yes|on|1/i
 
 # Use dotenv to load environment variables
 gem 'dotenv-rails', :require => 'dotenv/rails-now'
@@ -163,10 +163,12 @@ insert_into_file 'config/environments/development.rb', <<EOS, after: 'config.act
   config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
 EOS
 
-insert_into_file 'config/routes.rb', <<EOS, after: 'Rails.application.routes.draw do'
+
+root_path = (ENV['DISABLE_RAILS_ADMIN'] =~ /true|yes|on|1/i) ? 'welcome#index' : 'rails_admin/main#dashboard'
+insert_into_file 'config/routes.rb', <<"EOS", after: 'Rails.application.routes.draw do'
 
   # root to: "devise/sessions#new" # Sign in
-  root to: "rails_admin/main#dashboard" # TODO Change top page
+  root to: "#{root_path}" # TODO Change top page
 
 EOS
 git_add_commit 'Following instructions of devise:install'
@@ -255,8 +257,10 @@ git_add_commit 'Add config for bullet'
 
 
 ## rails_admin
-generate_with_git 'rails_admin:install'
-download_file "config/locales/ja.rails_admin.yml", "https://raw.githubusercontent.com/starchow/rails_admin-i18n/master/locales/ja.yml"
+unless ENV['DISABLE_RAILS_ADMIN'] =~ /true|yes|on|1/i
+  generate_with_git 'rails_admin:install'
+  download_file "config/locales/ja.rails_admin.yml", "https://raw.githubusercontent.com/starchow/rails_admin-i18n/master/locales/ja.yml"
+end
 
 ## DB
 
