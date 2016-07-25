@@ -280,4 +280,4 @@ gem 'akm_rails_generators', git: 'git@github.com:akm/akm_rails_generators.git'
 
 ## The End
 
-git commit: "--allow-empty '[COMPLETE] rails new with akm/rails_template'"
+git commit: "'[COMPLETE] rails new with akm/rails_template' --allow-empty "
