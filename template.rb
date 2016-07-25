@@ -39,9 +39,10 @@ end
 git :init
 git_add_commit "#{File.basename($PROGRAM_NAME)} #{ARGV.join(' ')}"
 
-run 'mv README.rdoc README.md'
-
-git_add_commit "Rename README.rdoc to README.md"
+if File.exist?('README.rdoc') && File.exist?('README.md')
+  run 'mv README.rdoc README.md'
+  git_add_commit "Rename README.rdoc to README.md"
+end
 
 ## Gemfile
 
