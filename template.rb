@@ -58,7 +58,8 @@ gem "kaminari"
 # http://sinsoku.hatenablog.com/entry/2015/11/15/103924
 gem 'pretty_validation', git: "https://github.com/akm/pretty_validation.git"
 
-gem 'rails_admin' unless ENV['DISABLE_RAILS_ADMIN'] =~ /true|yes|on|1/i
+# # https://github.com/sferik/rails_admin
+# gem 'rails_admin' unless ENV['DISABLE_RAILS_ADMIN'] =~ /true|yes|on|1/i
 
 # Use dotenv to load environment variables
 gem 'dotenv-rails', :require => 'dotenv/rails-now'
@@ -254,11 +255,11 @@ EOS
 git_add_commit 'Add config for bullet'
 
 
-## rails_admin
-unless ENV['DISABLE_RAILS_ADMIN'] =~ /true|yes|on|1/i
-  generate_with_git 'rails_admin:install'
-  download_file "config/locales/ja.rails_admin.yml", "https://raw.githubusercontent.com/starchow/rails_admin-i18n/master/locales/ja.yml"
-end
+# ## rails_admin
+# unless ENV['DISABLE_RAILS_ADMIN'] =~ /true|yes|on|1/i
+#   generate_with_git 'rails_admin:install'
+#   download_file "config/locales/ja.rails_admin.yml", "https://raw.githubusercontent.com/starchow/rails_admin-i18n/master/locales/ja.yml"
+# end
 
 ## DB
 
