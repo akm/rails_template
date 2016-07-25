@@ -36,6 +36,12 @@ def git_rake(*args)
   git_run "bin/rake %s" % args.join(" ")
 end
 
+def uncomment(path, target)
+  text = IO.binread(path)
+  text.sub!(/\#\s*#{Regexp.escape(target)}/, target)
+  IO.binwrite(path, text)
+end
+
 git :init
 git_add_commit "#{File.basename($PROGRAM_NAME)} #{ARGV.join(' ')}"
 
@@ -124,10 +130,7 @@ download_file "config/locales/ja.yml", "https://raw.githubusercontent.com/svenfu
 generate_with_git 'rspec:install'
 download_file ".rspec", "https://raw.githubusercontent.com/akm/rails_template/master/.rspec"
 
-insert_into_file 'spec/rails_helper.rb', <<EOS, after: "\# Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }"
-Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
-
-EOS
+uncomment('spec/rails_helper.rb', "Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }")
 git_add_commit 'Enable rb files under spec/support'
 
 
