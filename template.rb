@@ -11,7 +11,9 @@ require 'fileutils'
 
 def git_add_commit(msg, path = '.')
   git add: path
+  raise "Failed to git add #{path.inspect}" unless $? == 0
   git commit: "-m '#{msg}'"
+  raise "Failed to git commit #{msg.inspect}" unless $? == 0
 end
 
 def generate_with_git(arg)
