@@ -51,8 +51,8 @@ gem 'cancancan'
 
 gem "kaminari"
 
-# https://github.com/brainspec/enumerize
-gem 'enumerize'
+# # https://github.com/brainspec/enumerize
+# gem 'enumerize'
 
 # https://github.com/sinsoku/pretty_validation
 # http://sinsoku.hatenablog.com/entry/2015/11/15/103924
@@ -76,16 +76,14 @@ gem_group :development, :test do
   gem "factory_girl_rails"
   gem "annotate"
   gem "rails_best_practices"
+  # https://github.com/flyerhzm/bullet
+  gem 'bullet'  
 end
 
 gem_group :development do
   gem "better_errors"
   gem 'binding_of_caller'
 
-  gem "schema_comments"
-
-  # https://github.com/flyerhzm/bullet
-  gem 'bullet'  
 end
 
 git_add_commit 'Add gems to Gemfile'
@@ -265,6 +263,12 @@ end
 ## DB
 
 git_rake "db:create db:migrate"
+
+## generators
+
+# https://github.com/akm/akm_rails_generators
+gem 'akm_rails_generators', git: 'git@github.com:akm/akm_rails_generators.git'
+
 
 ## The End
 
