@@ -96,6 +96,10 @@ gem_group :development do
 
 end
 
+gem_group :test do
+  gem 'rails-controller-testing'
+end
+
 git_add_commit 'Add gems to Gemfile'
 
 Bundler.with_clean_env do
