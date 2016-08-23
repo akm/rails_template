@@ -42,7 +42,7 @@ def uncomment(path, target)
   IO.binwrite(path, text)
 end
 
-git :init
+git :init unless ENV['SKIP_GIT_INIT'] =~ /true|yes|on|1/i
 git_add_commit "#{File.basename($PROGRAM_NAME)} #{ARGV.join(' ')}"
 
 if File.exist?('README.rdoc') && File.exist?('README.md')
