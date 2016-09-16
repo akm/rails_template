@@ -55,8 +55,12 @@ end
 gem "twitter-bootstrap-rails"
 
 gem 'devise'
+
 # https://github.com/CanCanCommunity/cancancan
 gem 'cancancan'
+
+https://github.com/brainspec/enumerize
+gem 'enumerize'
 
 gem "kaminari"
 
