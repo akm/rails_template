@@ -93,7 +93,10 @@ end
 gem_group :development do
   gem "better_errors"
   gem 'binding_of_caller'
-
+  # https://github.com/akm/akm_rails_generators
+  gem 'akm_rails_generators', git: 'git@github.com:akm/akm_rails_generators.git'
+  # https://github.com/akm/gitguard
+  gem 'gitguard'
 end
 
 gem_group :test do
@@ -276,12 +279,10 @@ git_add_commit 'Add config for bullet'
 
 git_rake "db:create db:migrate"
 
-## generators
+## gitguard
 
-# https://github.com/akm/akm_rails_generators
-gem 'akm_rails_generators', git: 'git@github.com:akm/akm_rails_generators.git'
-
+generate_with_git "gitguard:install"
 
 ## The End
 
-git commit: "'[COMPLETE] rails new with akm/rails_template' --allow-empty "
+git commit: "\"\[COMPLETE\] rails new with akm/rails_templat\"' --allow-empty "
