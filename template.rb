@@ -99,9 +99,8 @@ gem_group :development do
   gem 'binding_of_caller'
   # https://github.com/akm/akm_rails_generators
   gem 'akm_rails_generators', git: 'git@github.com:akm/akm_rails_generators.git'
-  # https://github.com/akm/gitguard
-  gem 'gitguard'
 end
+
 
 gem_group :test do
   gem 'rails-controller-testing'
@@ -283,7 +282,15 @@ git_add_commit 'Add config for bullet'
 
 git_rake "db:create db:migrate"
 
+
+
+
 ## gitguard
+
+gem_group :development do
+  # https://github.com/akm/gitguard
+  gem 'gitguard'
+end
 
 generate_with_git "gitguard:install"
 
