@@ -296,4 +296,4 @@ generate_with_git "gitguard:install"
 
 ## The End
 
-git commit: "\"\[COMPLETE\] rails new with akm/rails_templat\" --allow-empty "
+git commit: "-m \"\[COMPLETE\] rails new with akm/rails_templat\" --allow-empty "
